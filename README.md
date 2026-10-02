@@ -2,7 +2,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg">
-  <img alt="Yunus — otel ve klinik için AI ürünleri: hotelai · dentai" src="assets/banner-light.svg" width="100%">
+  <img alt="Yunus · heyone — AI ajanlarıyla ürün geliştiriyorum: heyagent · heyhotelai · heydentai" src="assets/banner-light.svg" width="100%">
 </picture>
 </p>
 
@@ -10,28 +10,30 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/typing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/typing-light.svg">
-  <img alt="Otel operasyonunu AI ile yönetiyorum. Klinik asistanı dentai'yi geliştiriyorum. Çok ajanlı bir AI ofisi kuruyorum." src="assets/typing-light.svg">
+  <img alt="heyagent: AI ajanlarımla bir ofis kuruyorum. heyhotelai: otel operasyonunu AI ile yönetiyorum. heydentai: klinikler için AI asistanı geliştiriyorum." src="assets/typing-light.svg">
 </picture>
 </p>
 
-**Yunus** — otel ve klinik için AI ürünleri: **hotelai** · **dentai**
-<br><sub>AI products for hotels and clinics.</sub>
+<p align="center">
+<b>heyone</b> — AI ajanlarıyla ürün geliştiren küçük bir stüdyo.<br>
+<sub>A small studio building AI products for hotels and clinics, together with a team of AI agents.</sub>
+</p>
 
-### Şu an ne yapıyorum
+### Ürünler
 
-- 🏨 **hotelai** — otel operasyon asistanı
-- 🦷 **dentai** — klinik asistanı
-- 🤖 **Çok ajanlı AI ofisi** — ürünleri birlikte geliştiren AI ajan ekibi
+- **`>_` heyagent** · AI ajan ofisi — ürünleri birlikte geliştiren AI ajan ekibinin ofisi: kalıcı kimlikli ajanlar, görev panosu, terminal odaklı çalışma alanı.
+- **heyhotelai** · otel — otel operasyon asistanı.
+- **heydentai** · klinik — klinik asistanı.
 
 ### Kullandıklarım
 
-![Python](https://img.shields.io/badge/Python-0f766e?style=flat-square&logo=python&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-0f766e?style=flat-square&logo=typescript&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-0f766e?style=flat-square&logo=javascript&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-0f766e?style=flat-square&logo=linux&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-0f766e?style=flat-square&logo=docker&logoColor=white)
-![Claude](https://img.shields.io/badge/Claude-0f766e?style=flat-square&logo=claude&logoColor=white)
-![WhatsApp Cloud API](https://img.shields.io/badge/WhatsApp_Cloud_API-0f766e?style=flat-square&logo=whatsapp&logoColor=white)
+![Python](https://img.shields.io/badge/Python-1c2128?style=flat-square&logo=python&logoColor=79e7c5)
+![TypeScript](https://img.shields.io/badge/TypeScript-1c2128?style=flat-square&logo=typescript&logoColor=79e7c5)
+![JavaScript](https://img.shields.io/badge/JavaScript-1c2128?style=flat-square&logo=javascript&logoColor=79e7c5)
+![Linux](https://img.shields.io/badge/Linux-1c2128?style=flat-square&logo=linux&logoColor=79e7c5)
+![Docker](https://img.shields.io/badge/Docker-1c2128?style=flat-square&logo=docker&logoColor=79e7c5)
+![Claude](https://img.shields.io/badge/Claude-1c2128?style=flat-square&logo=claude&logoColor=79e7c5)
+![WhatsApp Cloud API](https://img.shields.io/badge/WhatsApp_Cloud_API-1c2128?style=flat-square&logo=whatsapp&logoColor=79e7c5)
 
 ### Katkılar
 

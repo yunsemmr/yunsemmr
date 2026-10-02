@@ -1,20 +1,28 @@
 #!/usr/bin/env python3
-"""Profil README'sindeki hareketli SVG'leri üretir.
+"""Profil README'sindeki hareketli SVG'leri üretir (HeyAgent estetiği).
 
 Çıktılar (depo kökünde):
   assets/banner-dark.svg   assets/banner-light.svg
   assets/typing-dark.svg   assets/typing-light.svg
 
+Görünüm: HeyAgent paleti (zemin #090B0D, mint #79E7C5), üstte yaylı açılıp kapanan siyah
+ada, sağda Astra kurallarıyla akan mini terminal (❯ kullanıcı şeridi, ● ajan, camgöbeği
+araç, yeşil/kırmızı fark).
+
+Maskot: adadaki yuvada şimdilik HeyAgent'ın terminal işareti `>_` var. Mochi (coucou)
+yalnız iç kullanım izniyle kullanılıyor; kamuya açık profile ancak sahibinin YAYIN izni
+yazılı gelince girer (kendi-ofis/docs/izinler/coucou-mochi.md).
+
 Kurallar:
-  - Dış kaynak yok: font, görsel ya da servis çağrılmaz. Başlık yazıları
-    Inter (SIL OFL 1.1) glif hatlarından path'e çevrilir; daktilo satırı
-    sistemin eş aralıklı fontunu kullanır.
-  - Hareket yalnız CSS @keyframes ile yapılır; prefers-reduced-motion: reduce
-    olan tarayıcıda her şey durur ve okunur bir durağan kare kalır.
+  - Dış kaynak yok: font, görsel ya da servis çağrılmaz. Başlık ve terminal yazıları
+    Inter (SIL OFL 1.1) ve JetBrains Mono (SIL OFL 1.1) glif hatlarından path'e çevrilir;
+    daktilo satırı sistemin eş aralıklı fontunu kullanır.
+  - Hareket yalnız CSS @keyframes ile yapılır; prefers-reduced-motion: reduce olan
+    tarayıcıda her şey durur ve okunur bir durağan kare kalır (ada açık, satırlar dolu).
 
 Kullanım:
-  python3 tools/uret-svg.py [--font /yol/InterVariable.ttf]
-Font verilmezse `fc-match "Inter Variable"` ile aranır. Gerekli paket: fontTools.
+  python3 tools/uret-svg.py [--font /yol/InterVariable.ttf] [--mono /yol/Mono-Regular.ttf]
+Font verilmezse fc-match ile aranır. Gerekli paket: fontTools.
 """
 
 import argparse
@@ -34,35 +42,45 @@ ASSETS = KOK / "assets"
 # Daktilo satırında sırayla yazılıp silinen cümleler.
 SATIRLAR = [
     "Merhaba, ben Yunus.",
-    "Otel operasyonunu AI ile yönetiyorum.",
-    "Klinik asistanı dentai'yi geliştiriyorum.",
-    "Çok ajanlı bir AI ofisi kuruyorum.",
+    "heyagent: AI ajanlarımla bir ofis kuruyorum.",
+    "heyhotelai: otel operasyonunu AI ile yönetiyorum.",
+    "heydentai: klinikler için AI asistanı geliştiriyorum.",
 ]
 # Hareket kapalıyken gösterilecek satır.
 DURAGAN_SATIR = 1
 
+URUNLER = ["heyagent", "heyhotelai", "heydentai"]
+
+# Mini terminal: her satır (metin, renk anahtarı, kalın mı) parçalarından oluşur.
+# "serit" satırı kullanıcı satırıdır (düz zemin şeridi + ❯).
+TERMINAL = [
+    ("serit", [("❯ ", "acc", True), ("profil README'sini yenile", "ink", False)]),
+    ("", [("● ", "ink", False), ("Arda", "ink", True), ("  tasarımı çiziyor", "ink2", False)]),
+    ("", [("  └ ", "ink2", False), ("Edit", "cyan", True), ("  assets/banner-dark.svg", "ink2", False)]),
+    ("", [("      ", "ink2", False), ("+128", "yesil", True), ("  ", "ink2", False), ("−41", "kirmizi", True)]),
+    ("", [("● ", "ink", False), ("Lina", "ink", True), ("  önizlemeyi doğruluyor", "ink2", False)]),
+    ("", [("  └ ", "ink2", False), ("Bash", "cyan", True), ("  python3 tools/uret-svg.py", "ink2", False)]),
+    ("son", [("● ", "acc", False), ("hazır", "acc", True), ("  2 dosya · kanıtlı", "ink2", False)]),
+]
+
 TEMALAR = {
     "dark": {
-        "bg0": "#06131a", "bg1": "#0b232b",
-        "ink": "#e8fbf7", "ink2": "#9dbdb8",
-        "acc": "#5eead4", "acc2": "#2dd4bf",
-        "grid": "#5eead4",
-        "plateTop0": "#5eead4", "plateTopOp0": 0.20, "plateTopOp1": 0.04,
-        "sideL": "#0f3a3a", "sideR": "#0a2a2c", "plateStroke": "#5eead4",
-        "sweep": "#ffffff", "sweepOp": 0.07,
-        "chipFill": "#5eead4", "chipFillOp": 0.10, "chipStroke": "#5eead4",
-        "card": "#0c1c22", "cardStroke": "#1d3a40", "typeInk": "#d8f6f0",
+        "bg": "#090b0d", "glow": "#79e7c5", "glowOp": 0.13, "grid": "#79e7c5", "gridOp": 0.22,
+        "ink": "#ededef", "ink2": "#8e959d",
+        "acc": "#79e7c5", "cyan": "#67e8f9", "yesil": "#4ade80", "kirmizi": "#f87171",
+        "card": "#111417", "cardStroke": "#22282e", "serit": "#191d21",
+        "chip": "#111417", "chipStroke": "#262c33", "chipOn": "#79e7c5",
+        "ada": "#000000", "adaRing": "#2a3037", "adaInk": "#ededef", "adaInk2": "#8e959d",
+        "golge": 0.55, "typeInk": "#e6e8ea",
     },
     "light": {
-        "bg0": "#f5fbfa", "bg1": "#e0f1ed",
-        "ink": "#0c2b2a", "ink2": "#46625f",
-        "acc": "#0f766e", "acc2": "#14b8a6",
-        "grid": "#0f766e",
-        "plateTop0": "#14b8a6", "plateTopOp0": 0.26, "plateTopOp1": 0.06,
-        "sideL": "#a9ddd3", "sideR": "#92d0c5", "plateStroke": "#0f766e",
-        "sweep": "#ffffff", "sweepOp": 0.55,
-        "chipFill": "#0f766e", "chipFillOp": 0.08, "chipStroke": "#0f766e",
-        "card": "#f3faf8", "cardStroke": "#cde5e0", "typeInk": "#12302e",
+        "bg": "#f6f7f8", "glow": "#79e7c5", "glowOp": 0.30, "grid": "#087d61", "gridOp": 0.16,
+        "ink": "#0b0d0f", "ink2": "#5b6168",
+        "acc": "#087d61", "cyan": "#0e7490", "yesil": "#15803d", "kirmizi": "#b91c1c",
+        "card": "#ffffff", "cardStroke": "#e1e4e8", "serit": "#f0f2f4",
+        "chip": "#ffffff", "chipStroke": "#dfe3e7", "chipOn": "#087d61",
+        "ada": "#000000", "adaRing": "#000000", "adaInk": "#ededef", "adaInk2": "#9aa0a6",
+        "golge": 0.14, "typeInk": "#15191d",
     },
 }
 
@@ -74,16 +92,24 @@ def sayi(v):
 
 # ---------------------------------------------------------------- font → path
 class Yazici:
-    """Değişken fonttan belirli ağırlıkta örnek alıp metni path'e çevirir."""
+    """Fonttan (değişkense belirli ağırlıkta örnek alıp) metni path'e çevirir."""
 
-    def __init__(self, yol, wght, opsz):
-        self.font = instantiateVariableFont(TTFont(yol), {"wght": wght, "opsz": opsz})
-        self.cmap = self.font.getBestCmap()
-        self.gs = self.font.getGlyphSet()
-        self.upm = self.font["head"].unitsPerEm
+    def __init__(self, yol, wght=None, opsz=None):
+        font = TTFont(yol)
+        if "fvar" in font:
+            eksen = {"wght": wght}
+            if opsz is not None:
+                eksen["opsz"] = opsz
+            font = instantiateVariableFont(font, eksen)
+        self.font = font
+        self.cmap = font.getBestCmap()
+        self.gs = font.getGlyphSet()
+        self.upm = font["head"].unitsPerEm
         self.kern = self._kern_tablosu()
 
     def _kern_tablosu(self):
+        if "GPOS" not in self.font:
+            return []
         gpos = self.font["GPOS"].table
         idx = set()
         for fr in gpos.FeatureList.FeatureRecord:
@@ -135,123 +161,168 @@ class Yazici:
             onceki = ad
         return pen.getCommands(), (imlec - iz * self.upm) * olcek
 
+    def genislik(self, metin, boyut, iz=0.0):
+        return self.path(metin, boyut, 0, 0, iz)[1]
+
 
 # ---------------------------------------------------------------- başlık
-BANNER_W, BANNER_H = 1200, 320
+BANNER_W, BANNER_H = 1200, 340
+DONGU = 10  # saniye: ada ve terminal aynı döngüde
+# Döngü "ada açık + terminal dolu" karesinden başlar; yoksa ziyaretçi ilk ~2,5 sn boş pencere görür.
+BASLA = -6.2
+
+# Ada: açıkken 440x40, kapalıyken 150x40; merkez x=600.
+ADA_CX, ADA_Y, ADA_H, ADA_ACIK, ADA_KAPALI = 600, 20, 40, 440, 150
 
 
 def banner(t, yz):
-    baslik, _ = yz["baslik"].path("Yunus", 104, 72, 132, iz=-0.02)
-    alt, _ = yz["alt"].path("otel ve klinik için AI ürünleri", 36, 74, 188)
-
-    # Ürün çipleri
-    cipler = []
-    cx = 72
-    for i, ad in enumerate(["hotelai", "dentai"]):
-        d, gen = yz["cip"].path(ad, 28, 0, 0)
-        w = 24 + 10 + 12 + gen + 26
-        cipler.append((cx, w, d, i))
-        cx += w + 14
-
-    # Katman yığını (izometrik plakalar)
-    kx, kw, kh, kal = 940, 136, 68, 12
-    plakalar = []
-    for i in range(4):  # 0 = en üst
-        cy = 98 + i * 40
-        plakalar.append((i, cy))
-
     s = []
     a = s.append
+
     a('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d" '
       'role="img" aria-labelledby="t d">' % (BANNER_W, BANNER_H, BANNER_W, BANNER_H))
-    a('<title id="t">Yunus — otel ve klinik için AI ürünleri: hotelai · dentai</title>')
-    a('<desc id="d">Süzülen katmanlar ve sırayla beliren iki ürün adı: hotelai ve dentai.</desc>')
+    a('<title id="t">Yunus · heyone — heyagent · heyhotelai · heydentai</title>')
+    a('<desc id="d">Üstte açılıp kapanan siyah ada, solda ad ve üç ürün, sağda AI ajanlarının '
+      'satır satır çalıştığı bir terminal.</desc>')
+
+    # ---- hareket
+    r = ADA_H / 2
+    kayma = (ADA_ACIK - ADA_KAPALI) / 2
+    orta_olcek = (ADA_KAPALI - ADA_H) / (ADA_ACIK - ADA_H)
+    yay = "cubic-bezier(.34,1.5,.64,1)"
     a("<style>")
-    a(".fl{animation:fl 7.2s ease-in-out infinite}")
-    a("@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}")
-    a(".f1{animation-delay:-.9s}.f2{animation-delay:-1.8s}.f3{animation-delay:-2.7s}")
-    a(".dt{opacity:.3;animation:dt 6.4s ease-in-out infinite}")
-    a("@keyframes dt{0%,100%{opacity:.3}14%{opacity:1}32%{opacity:.3}}")
-    a(".sw{transform:translateX(-560px);animation:sw 12s cubic-bezier(.45,0,.3,1) infinite}")
-    a("@keyframes sw{0%{transform:translateX(-560px)}42%,100%{transform:translateX(1480px)}}")
-    a(".cp{animation:cp 1s cubic-bezier(.2,.7,.2,1) backwards}")
-    a("@keyframes cp{from{opacity:0;transform:translateY(12px)}}")
-    a(".c0{animation-delay:.5s}.c1{animation-delay:1.1s}")
-    a(".gl{opacity:0;animation:gl 9s ease-in-out infinite}")
-    a("@keyframes gl{0%,100%{opacity:0}22%{opacity:.95}48%{opacity:0}}")
-    a(".g0{animation-delay:1.6s}.g1{animation-delay:6.1s}")
+    a(".am,.al,.ar{transform-box:fill-box;animation:%ds %s %ss infinite}" % (DONGU, yay, BASLA))
+    a(".am{transform-origin:center;animation-name:am}.al{animation-name:al}.ar{animation-name:ar}")
+    a("@keyframes am{0%%,10%%{transform:scaleX(%.4f)}22%%,72%%{transform:scaleX(1)}"
+      "84%%,100%%{transform:scaleX(%.4f)}}" % (orta_olcek, orta_olcek))
+    a("@keyframes al{0%%,10%%{transform:translateX(%spx)}22%%,72%%{transform:translateX(0)}"
+      "84%%,100%%{transform:translateX(%spx)}}" % (sayi(kayma), sayi(kayma)))
+    a("@keyframes ar{0%%,10%%{transform:translateX(-%spx)}22%%,72%%{transform:translateX(0)}"
+      "84%%,100%%{transform:translateX(-%spx)}}" % (sayi(kayma), sayi(kayma)))
+    a(".ai{animation:ai %ds ease-in-out %ss infinite}" % (DONGU, BASLA))
+    a("@keyframes ai{0%,19%{opacity:0}27%,67%{opacity:1}73%,100%{opacity:0}}")
+    a(".nb{animation:nb 1.6s ease-in-out infinite}@keyframes nb{50%{opacity:.3}}")
+    a(".cp{animation:cp .9s cubic-bezier(.2,.7,.2,1) backwards}")
+    a("@keyframes cp{from{opacity:0;transform:translateY(10px)}}")
+    a(".c0{animation-delay:.4s}.c1{animation-delay:.8s}.c2{animation-delay:1.2s}")
+    a(".im{animation:im 1s steps(1) infinite}@keyframes im{50%{opacity:0}}")
+    satir_bas, satir_ara, sonus = 24, 6.2, 93
+    for i in range(len(TERMINAL)):
+        gor = satir_bas + i * satir_ara
+        a(".s%d{animation:s%d %ds ease-out %ss infinite}" % (i, i, DONGU, BASLA))
+        a("@keyframes s%d{0%%,%.1f%%{opacity:0;transform:translateY(4px)}%.1f%%,%d%%{opacity:1;"
+          "transform:translateY(0)}%d%%,100%%{opacity:0}}" % (i, gor, gor + 2.5, sonus, sonus + 4))
     a("@media (prefers-reduced-motion:reduce){*{animation:none!important}}")
     a("</style>")
 
+    # ---- tanımlar
     a("<defs>")
-    a('<clipPath id="k"><rect width="%d" height="%d" rx="18"/></clipPath>' % (BANNER_W, BANNER_H))
-    a('<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">'
-      '<stop offset="0" stop-color="%s"/><stop offset="1" stop-color="%s"/></linearGradient>'
-      % (t["bg0"], t["bg1"]))
-    a('<linearGradient id="pt" x1="0" y1="0" x2="1" y2="1">'
+    a('<clipPath id="k"><rect width="%d" height="%d" rx="20"/></clipPath>' % (BANNER_W, BANNER_H))
+    a('<radialGradient id="pa" cx="960" cy="40" r="520" gradientUnits="userSpaceOnUse">'
       '<stop offset="0" stop-color="%s" stop-opacity="%s"/>'
-      '<stop offset="1" stop-color="%s" stop-opacity="%s"/></linearGradient>'
-      % (t["plateTop0"], t["plateTopOp0"], t["plateTop0"], t["plateTopOp1"]))
-    a('<linearGradient id="sg" x1="0" y1="0" x2="1" y2="0">'
-      '<stop offset="0" stop-color="%s" stop-opacity="0"/>'
-      '<stop offset=".5" stop-color="%s" stop-opacity="%s"/>'
-      '<stop offset="1" stop-color="%s" stop-opacity="0"/></linearGradient>'
-      % (t["sweep"], t["sweep"], t["sweepOp"], t["sweep"]))
-    a('<radialGradient id="mg" cx="%s" cy="%s" r="560" gradientUnits="userSpaceOnUse">'
-      '<stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>'
-      % (kx, 170))
+      '<stop offset="1" stop-color="%s" stop-opacity="0"/></radialGradient>'
+      % (t["glow"], t["glowOp"], t["glow"]))
+    a('<radialGradient id="mg" cx="900" cy="170" r="620" gradientUnits="userSpaceOnUse">'
+      '<stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>')
     a('<mask id="m"><rect width="%d" height="%d" fill="url(#mg)"/></mask>' % (BANNER_W, BANNER_H))
     a('<pattern id="p" width="24" height="24" patternUnits="userSpaceOnUse">'
-      '<circle cx="12" cy="12" r="1.1" fill="%s" fill-opacity=".28"/></pattern>' % t["grid"])
+      '<circle cx="12" cy="12" r="1" fill="%s" fill-opacity="%s"/></pattern>' % (t["grid"], t["gridOp"]))
+    a('<filter id="g" x="-20%%" y="-20%%" width="140%%" height="150%%">'
+      '<feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="%s"/></filter>'
+      % t["golge"])
     a("</defs>")
 
     a('<g clip-path="url(#k)">')
-    a('<rect width="%d" height="%d" fill="url(#bg)"/>' % (BANNER_W, BANNER_H))
+    a('<rect width="%d" height="%d" fill="%s"/>' % (BANNER_W, BANNER_H, t["bg"]))
     a('<rect width="%d" height="%d" fill="url(#p)" mask="url(#m)"/>' % (BANNER_W, BANNER_H))
+    a('<rect width="%d" height="%d" fill="url(#pa)"/>' % (BANNER_W, BANNER_H))
 
-    # Plakalar: alttan üste çizilir, üstteki alttakini örter.
-    for i, cy in reversed(plakalar):
-        L = (kx - kw, cy)
-        T = (kx, cy - kh)
-        R = (kx + kw, cy)
-        B = (kx, cy + kh)
-        f = lambda p: "%s,%s" % (sayi(p[0]), sayi(p[1]))
-        a('<g class="fl f%d">' % i)
-        a('<path d="M%s L%s L%s L%s Z" fill="%s"/>' % (
-            f(L), f(B), f((B[0], B[1] + kal)), f((L[0], L[1] + kal)), t["sideL"]))
-        a('<path d="M%s L%s L%s L%s Z" fill="%s"/>' % (
-            f(B), f(R), f((R[0], R[1] + kal)), f((B[0], B[1] + kal)), t["sideR"]))
-        a('<path d="M%s L%s L%s L%s Z" fill="url(#pt)" stroke="%s" stroke-opacity=".55" '
-          'stroke-width="1.3" stroke-linejoin="round"/>' % (f(L), f(T), f(R), f(B), t["plateStroke"]))
-        # Üst yüzdeki ışıklar: 3x3 ızgara, katmanlar boyunca yavaş bir dalga.
-        for si, sv in enumerate((0.25, 0.5, 0.75)):
-            for ti, tv in enumerate((0.25, 0.5, 0.75)):
-                px = L[0] + sv * (T[0] - L[0]) + tv * (B[0] - L[0])
-                py = L[1] + sv * (T[1] - L[1]) + tv * (B[1] - L[1])
-                gecikme = (3 - i) * 0.55 + (si + ti) * 0.42
-                a('<circle class="dt" style="animation-delay:%ss" cx="%s" cy="%s" r="2.7" fill="%s"/>'
-                  % ("%.2f" % gecikme, sayi(px), sayi(py), t["acc"]))
+    # ---- ada
+    sol_cx, sag_cx = ADA_CX - ADA_ACIK / 2 + r, ADA_CX + ADA_ACIK / 2 - r
+    cy = ADA_Y + r
+    for ek, renk in ((1.2, t["adaRing"]), (0, t["ada"])):
+        a('<g fill="%s">' % renk)
+        a('<rect class="am" x="%s" y="%s" width="%s" height="%s"/>' % (
+            sayi(sol_cx), sayi(ADA_Y - ek), sayi(sag_cx - sol_cx), sayi(ADA_H + 2 * ek)))
+        a('<circle class="al" cx="%s" cy="%s" r="%s"/>' % (sayi(sol_cx), sayi(cy), sayi(r + ek)))
+        a('<circle class="ar" cx="%s" cy="%s" r="%s"/>' % (sayi(sag_cx), sayi(cy), sayi(r + ek)))
         a("</g>")
+    # Ada içi: maskot yuvası (>_), ürün adı, çalışan ajan sayısı
+    ix = sol_cx - 4
+    a('<g class="ai">')
+    a('<path d="M%s %s l7 6 -7 6" fill="none" stroke="%s" stroke-width="2.6" stroke-linecap="round" '
+      'stroke-linejoin="round"/>' % (sayi(ix), sayi(cy - 6), t["acc"]))
+    a('<path d="M%s %s h9" fill="none" stroke="%s" stroke-width="2.6" stroke-linecap="round"/>'
+      % (sayi(ix + 11), sayi(cy + 6), t["acc"]))
+    d, _ = yz["ada"].path("heyagent", 17, ix + 30, cy + 6)
+    a('<path d="%s" fill="%s"/>' % (d, t["adaInk"]))
+    etiket = "3 ajan çalışıyor"
+    eg = yz["kucuk"].genislik(etiket, 14)
+    d, _ = yz["kucuk"].path(etiket, 14, sag_cx + 4 - eg, cy + 5)
+    a('<path d="%s" fill="%s"/>' % (d, t["adaInk2"]))
+    a('<circle class="nb" cx="%s" cy="%s" r="4" fill="%s"/>' % (sayi(sag_cx - eg - 8), sayi(cy), "#4ade80"))
+    a("</g>")
 
-    # Işık süzülmesi
-    a('<g transform="skewX(-20)"><rect class="sw" x="0" y="-40" width="300" height="%d" fill="url(#sg)"/></g>'
-      % (BANNER_H + 80))
+    # ---- sol blok
+    x0 = 72
+    d, _ = yz["etiket"].path("HEYONE", 15, x0 + 2, 114, iz=0.22)
+    a('<path d="%s" fill="%s"/>' % (d, t["acc"]))
+    d, _ = yz["baslik"].path("Yunus", 98, x0, 204, iz=-0.025)
+    a('<path d="%s" fill="%s"/>' % (d, t["ink"]))
+    d, _ = yz["alt"].path("AI ajanlarıyla ürün geliştiriyorum", 26, x0 + 2, 246)
+    a('<path d="%s" fill="%s"/>' % (d, t["ink2"]))
 
-    # Yazılar
-    a('<path d="%s" fill="%s"/>' % (baslik, t["ink"]))
-    a('<path d="%s" fill="%s"/>' % (alt, t["ink2"]))
-    for x, w, d, i in cipler:
-        y, h = 220, 54
+    cx, cy0, ch = x0, 270, 44
+    for i, ad in enumerate(URUNLER):
+        gen = yz["cip"].genislik(ad, 19)
+        w = 20 + 8 + 10 + gen + 20
+        vurgu = i == 0
         a('<g class="cp c%d">' % i)
-        a('<rect class="gl g%d" x="%s" y="%s" width="%s" height="%s" rx="%s" fill="none" stroke="%s" '
-          'stroke-opacity=".45" stroke-width="6"/>' % (i, sayi(x - 3), y - 3, sayi(w + 6), h + 6, (h + 6) / 2, t["acc2"]))
-        a('<rect x="%s" y="%s" width="%s" height="%s" rx="%s" fill="%s" fill-opacity="%s" stroke="%s" '
-          'stroke-opacity=".5" stroke-width="1.4"/>' % (sayi(x), y, sayi(w), h, h / 2, t["chipFill"],
-                                                         t["chipFillOp"], t["chipStroke"]))
-        a('<circle cx="%s" cy="%s" r="5.5" fill="%s"/>' % (sayi(x + 29), y + h / 2, t["acc"]))
-        a('<g transform="translate(%s %s)"><path d="%s" fill="%s"/></g>' % (
-            sayi(x + 46), sayi(y + h / 2 + 10), d, t["ink"]))
+        a('<rect x="%s" y="%s" width="%s" height="%s" rx="%s" fill="%s" stroke="%s" stroke-width="1.2"/>' % (
+            sayi(cx), cy0, sayi(w), ch, ch / 2, t["chip"], t["chipOn"] if vurgu else t["chipStroke"]))
+        a('<circle cx="%s" cy="%s" r="4.5" fill="%s"/>' % (sayi(cx + 24), cy0 + ch / 2, t["acc"]))
+        d, _ = yz["cip"].path(ad, 19, cx + 38, cy0 + ch / 2 + 6.5)
+        a('<path d="%s" fill="%s"/>' % (d, t["ink"]))
         a("</g>")
+        cx += w + 12
+
+    # ---- terminal
+    tx, ty, tw, th = 690, 92, 440, 226
+    a('<g filter="url(#g)"><rect x="%d" y="%d" width="%d" height="%d" rx="14" fill="%s" stroke="%s" '
+      'stroke-width="1.2"/></g>' % (tx, ty, tw, th, t["card"], t["cardStroke"]))
+    for j, renk in enumerate(("#ff5f57", "#febc2e", "#28c840")):
+        a('<circle cx="%d" cy="%d" r="5.5" fill="%s"/>' % (tx + 20 + j * 18, ty + 17, renk))
+    baslik = "heyagent — ofis"
+    bg = yz["kucuk"].genislik(baslik, 13)
+    d, _ = yz["kucuk"].path(baslik, 13, tx + tw / 2 - bg / 2, ty + 21.5)
+    a('<path d="%s" fill="%s"/>' % (d, t["ink2"]))
+    a('<path d="M%d %d h%d" stroke="%s" stroke-width="1"/>' % (tx, ty + 34, tw, t["cardStroke"]))
+
+    fs, adim = 15.5, 24
+    sx, sy = tx + 18, ty + 62
+    for i, (tur, parcalar) in enumerate(TERMINAL):
+        y = sy + i * adim
+        a('<g class="s%d">' % i)
+        if tur == "serit":
+            a('<rect x="%d" y="%s" width="%d" height="%d" fill="%s"/>' % (
+                tx + 1, sayi(y - 17), tw - 2, 24, t["serit"]))
+        x = sx
+        for metin, renk, kalin in parcalar:
+            yazici = yz["mono_kalin"] if kalin else yz["mono"]
+            if metin == "❯ ":
+                a('<path d="M%s %s l6 5.5 -6 5.5" fill="none" stroke="%s" stroke-width="2.4" '
+                  'stroke-linecap="round" stroke-linejoin="round"/>' % (sayi(x + 1.5), sayi(y - 11), t[renk]))
+                x += yazici.genislik(metin, fs)
+                continue
+            d, gen = yazici.path(metin, fs, x, y)
+            if d:
+                a('<path d="%s" fill="%s"/>' % (d, t[renk]))
+            x += gen
+        if tur == "son":
+            a('<rect class="im" x="%s" y="%s" width="9" height="17" rx="1.5" fill="%s"/>' % (
+                sayi(x + 6), sayi(y - 13.5), t["acc"]))
+        a("</g>")
+
     a("</g>")
     a("</svg>")
     return "\n".join(s) + "\n"
@@ -259,15 +330,15 @@ def banner(t, yz):
 
 # ---------------------------------------------------------------- daktilo
 def typing(t):
-    fs = 22
+    fs = 21
     cw = round(fs * 0.6, 2)  # eş aralıklı fontlarda harf genişliği ≈ 0.6 em
-    x0 = 60
+    x0 = 58
     uzun = max(len(sat) for sat in SATIRLAR)
     W = int(x0 + uzun * cw + 48)
-    H = 64
+    H = 60
     taban = H / 2 + fs * 0.35
 
-    yaz_ms, sil_ms, bekle, ara, bas = 72, 32, 1900, 420, 300
+    yaz_ms, sil_ms, bekle, ara, bas = 64, 26, 2100, 420, 300
     dilimler = []
     zaman = bas
     for sat in SATIRLAR:
@@ -290,15 +361,15 @@ def typing(t):
       'role="img" aria-labelledby="t">' % (W, H, W, H))
     a('<title id="t">%s</title>' % html.escape(" / ".join(SATIRLAR)))
     a("<style>")
-    a("text{font:500 %dpx ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,"
+    a("text{font:500 %dpx ui-monospace,SFMono-Regular,'SF Mono','JetBrains Mono',Menlo,Consolas,"
       "'Liberation Mono','DejaVu Sans Mono',monospace;fill:%s}" % (fs, t["typeInk"]))
     # .st durağan satırdır: CSS animasyonu işleyen tarayıcıda hep saydam kalır;
     # animasyon yoksa (reduced-motion ya da animasyonsuz görüntüleyici) görünür.
     a(".st{animation:gz 1s infinite}@keyframes gz{from,to{opacity:0}}")
     a(".ln{opacity:0;animation:%dms linear infinite}" % T)
     a(".mv{animation:%dms linear infinite}" % T)
-    a(".cr{animation:cr .9s ease-in-out infinite alternate}")
-    a("@keyframes cr{from{opacity:1}to{opacity:.25}}")
+    a(".cr{animation:cr 1s steps(1) infinite}")
+    a("@keyframes cr{50%{opacity:0}}")
     for i, (s0, s1, s2, s3) in enumerate(dilimler):
         n = len(SATIRLAR[i])
         L = n * cw
@@ -310,10 +381,10 @@ def typing(t):
               i, yuzde(s0), n, yuzde(s1), yuzde(s2), sayi(L), n, yuzde(s3)))
     a("@media (prefers-reduced-motion:reduce){.st,.ln,.mv,.cr{animation:none!important}}")
     a("</style>")
-    a('<defs><clipPath id="k"><rect x="1" y="1" width="%d" height="%d" rx="13"/></clipPath></defs>'
+    a('<defs><clipPath id="k"><rect x="1" y="1" width="%d" height="%d" rx="14"/></clipPath></defs>'
       % (W - 2, H - 2))
-    a('<rect x="1" y="1" width="%d" height="%d" rx="13" fill="%s"/>' % (W - 2, H - 2, t["card"]))
-    a('<path d="M30 %s l8 6 -8 6" fill="none" stroke="%s" stroke-width="2.6" '
+    a('<rect x="1" y="1" width="%d" height="%d" rx="14" fill="%s"/>' % (W - 2, H - 2, t["card"]))
+    a('<path d="M26 %s l8 6 -8 6" fill="none" stroke="%s" stroke-width="2.6" '
       'stroke-linecap="round" stroke-linejoin="round"/>' % (sayi(H / 2 - 6), t["acc"]))
     a('<text class="st" x="%s" y="%s" textLength="%s" lengthAdjust="spacing" xml:space="preserve">%s</text>'
       % (x0, sayi(taban), sayi(len(SATIRLAR[DURAGAN_SATIR]) * cw), html.escape(SATIRLAR[DURAGAN_SATIR])))
@@ -326,36 +397,45 @@ def typing(t):
           % (x0, sayi(taban), sayi(L), html.escape(sat)))
         a('<g class="mv" style="animation-name:m%d">' % i)
         a('<rect x="%s" y="4" width="%s" height="%d" fill="%s"/>' % (x0 - 1, sayi(L + 40), H - 8, t["card"]))
-        a('<rect class="cr" x="%s" y="%s" width="2.6" height="%s" rx="1.3" fill="%s"/>' % (
-            x0 + 1, sayi(taban - fs * 0.82), sayi(fs * 1.02), t["acc"]))
+        a('<rect class="cr" x="%s" y="%s" width="10" height="%s" rx="1.5" fill="%s"/>' % (
+            x0 + 1, sayi(taban - fs * 0.8), sayi(fs * 0.98), t["acc"]))
         a("</g></g>")
     a("</g>")
-    a('<rect x="1" y="1" width="%d" height="%d" rx="13" fill="none" stroke="%s" stroke-width="1.2"/>'
+    a('<rect x="1" y="1" width="%d" height="%d" rx="14" fill="none" stroke="%s" stroke-width="1.2"/>'
       % (W - 2, H - 2, t["cardStroke"]))
     a("</svg>")
     return "\n".join(s) + "\n"
 
 
-def font_bul():
+def font_bul(desen, ad_parcasi):
     try:
-        yol = subprocess.run(["fc-match", "-f", "%{file}", "Inter Variable"],
+        yol = subprocess.run(["fc-match", "-f", "%{file}", desen],
                              capture_output=True, text=True, check=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
         yol = ""
-    if not yol or "Inter" not in pathlib.Path(yol).name:
-        sys.exit("Inter Variable bulunamadı; --font ile yol ver.")
+    if not yol or ad_parcasi not in pathlib.Path(yol).name:
+        sys.exit(f"{desen} bulunamadı; yolu bayrakla ver.")
     return yol
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--font")
+    ap.add_argument("--font", help="Inter Variable .ttf")
+    ap.add_argument("--mono", help="JetBrains Mono Regular .ttf")
+    ap.add_argument("--mono-kalin", help="JetBrains Mono Bold .ttf")
     arg = ap.parse_args()
-    yol = arg.font or font_bul()
+    inter = arg.font or font_bul("Inter Variable", "Inter")
+    mono = arg.mono or font_bul("JetBrainsMono Nerd Font:style=Regular", "JetBrains")
+    mono_kalin = arg.mono_kalin or font_bul("JetBrainsMono Nerd Font:style=Bold", "JetBrains")
     yz = {
-        "baslik": Yazici(yol, 760, 32),
-        "alt": Yazici(yol, 450, 24),
-        "cip": Yazici(yol, 620, 22),
+        "baslik": Yazici(inter, 780, 32),
+        "alt": Yazici(inter, 450, 24),
+        "etiket": Yazici(inter, 700, 14),
+        "cip": Yazici(inter, 620, 20),
+        "ada": Yazici(inter, 640, 18),
+        "kucuk": Yazici(inter, 500, 14),
+        "mono": Yazici(mono),
+        "mono_kalin": Yazici(mono_kalin),
     }
     ASSETS.mkdir(exist_ok=True)
     for ad, tema in TEMALAR.items():
