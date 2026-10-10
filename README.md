@@ -1,46 +1,61 @@
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg">
-  <img alt="yunsemmr · heyone — AI ajanlarıyla ürün geliştiriyorum: heyagent · heyhotelai · heydentai" src="assets/banner-light.svg" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/afis-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/afis-light.svg">
+  <img alt="OpOne — İşletmenin bütün operasyonu tek yerde. HotelAI, DentAI, AgentAI ve SocialAI maskotları" src="assets/afis-light.svg" width="100%">
 </picture>
 </p>
 
 <p align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/typing-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/typing-light.svg">
-  <img alt="heyagent: AI ajanlarımla bir ofis kuruyorum. heyhotelai: otel operasyonunu AI ile yönetiyorum. heydentai: klinikler için AI asistanı geliştiriyorum." src="assets/typing-light.svg">
-</picture>
+<b>OpOne</b>, otel ve kliniklerin bütün işini tek panelde toplayan yapay zekâ ürünleri yapıyor.<br>
+Ürünleri, kalıcı kimlikli yapay zekâ ajanlarından oluşan bir ekiple birlikte geliştiriyorum.<br>
+<sub>OpOne builds AI products that bring every part of a hotel's or a clinic's day into one place — developed together with a team of AI agents.</sub>
 </p>
+
+<br>
+
+<table align="center">
+<tr>
+<td align="center" width="50%" valign="top">
+<img src="assets/maskot/hotelai.svg" width="104" alt="HotelAI maskotu"><br>
+<b>HotelAI</b><br>
+<sub>otel</sub><br><br>
+Otelin bütün sistemleri tek panelde.<br>
+PMS, WhatsApp, Booking, gün sonu ve raporlar yapay zekâ ile.<br><br>
+<a href="https://hellohotelai.com">hellohotelai.com</a> · <a href="https://www.instagram.com/hellohotelai.io/">Instagram</a>
+</td>
+<td align="center" width="50%" valign="top">
+<img src="assets/maskot/dentai.svg" width="104" alt="DentAI maskotu"><br>
+<b>DentAI</b><br>
+<sub>klinik</sub><br><br>
+Kliniğin günü tek yerde.<br>
+Randevu, hasta, tedavi, stok ve tahsilat yapay zekâ ile.<br><br>
+<a href="https://hellodentai.com">hellodentai.com</a> · <a href="https://www.instagram.com/hellodentai.io/">Instagram</a>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" valign="top">
+<img src="assets/maskot/agentai.svg" width="104" alt="AgentAI maskotu"><br>
+<b>AgentAI</b><br>
+<sub>ajan ekibi</sub><br><br>
+İşinizi yapan yapay zekâ ekibi.<br>
+Plan yapar, işi bitirir, kanıtıyla raporlar.<br><br>
+<a href="https://www.instagram.com/helloagentai.io/">Instagram</a>
+</td>
+<td align="center" width="50%" valign="top">
+<img src="assets/maskot/socialai.svg" width="104" alt="SocialAI maskotu"><br>
+<b>SocialAI</b><br>
+<sub>sosyal medya ve reklam</sub><br><br>
+Sosyal medyanız ve reklamınız tek ekipte.<br>
+İçerik, paylaşım, reklam ve rapor yapay zekâ ile.<br><br>
+<a href="https://www.instagram.com/hellosocialai.io/">Instagram</a>
+</td>
+</tr>
+</table>
+
+<br>
 
 <p align="center">
-<b>heyone</b> — AI ajanlarıyla ürün geliştiren küçük bir stüdyo.<br>
-<sub>A small studio building AI products for hotels and clinics, together with a team of AI agents.</sub>
+İlk 20 otel ve klinikte kurulum ücretsiz.<br>
+<a href="https://hellopone.com"><b>hellopone.com</b></a> · <a href="https://www.instagram.com/helloponeai/">@helloponeai</a>
 </p>
-
-### Ürünler
-
-- **`>_` heyagent** · AI ajan ofisi — ürünleri birlikte geliştiren AI ajan ekibinin ofisi: kalıcı kimlikli ajanlar, görev panosu, terminal odaklı çalışma alanı.
-- **heyhotelai** · otel — otel operasyon asistanı.
-- **heydentai** · klinik — klinik asistanı.
-
-### Kullandıklarım
-
-![Python](https://img.shields.io/badge/Python-1c2128?style=flat-square&logo=python&logoColor=79e7c5)
-![TypeScript](https://img.shields.io/badge/TypeScript-1c2128?style=flat-square&logo=typescript&logoColor=79e7c5)
-![JavaScript](https://img.shields.io/badge/JavaScript-1c2128?style=flat-square&logo=javascript&logoColor=79e7c5)
-![Linux](https://img.shields.io/badge/Linux-1c2128?style=flat-square&logo=linux&logoColor=79e7c5)
-![Docker](https://img.shields.io/badge/Docker-1c2128?style=flat-square&logo=docker&logoColor=79e7c5)
-![Claude](https://img.shields.io/badge/Claude-1c2128?style=flat-square&logo=claude&logoColor=79e7c5)
-![WhatsApp Cloud API](https://img.shields.io/badge/WhatsApp_Cloud_API-1c2128?style=flat-square&logo=whatsapp&logoColor=79e7c5)
-
-### Katkılar
-
-<!-- yilan:basla -->
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yunsemmr/yunsemmr/output/github-contribution-grid-snake-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/yunsemmr/yunsemmr/output/github-contribution-grid-snake.svg">
-  <img alt="Katkı grafiğinde dolaşan yılan" src="https://raw.githubusercontent.com/yunsemmr/yunsemmr/output/github-contribution-grid-snake.svg">
-</picture>
-<!-- yilan:bitir -->
