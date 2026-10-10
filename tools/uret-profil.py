@@ -8,9 +8,18 @@ IG = Path.home() / "Masaüstü/00-TESLIM/instagram-profil-10ekim"
 MASKOT = KOK / "assets/maskot"
 MASKOT.mkdir(parents=True, exist_ok=True)
 
+GOZ = ('<circle cx="46.7" cy="66.3" r="1.9" fill="#ffffff"/>'
+       '<circle cx="85.2" cy="66.3" r="1.9" fill="#ffffff"/></svg>')
+
+
+def parilti(svg: str) -> str:
+    """Gözlere beyaz parıltı noktası (AgentAI/SocialAI ile aynı); zaten varsa dokunma."""
+    return svg if 'cx="46.7"' in svg else svg.replace("</svg>", GOZ)
+
+
 kaynak = {
-    "hotelai": (KIT / "isaret-hotelai.svg").read_text(),
-    "dentai": (KIT / "isaret-dentai.svg").read_text(),
+    "hotelai": parilti((KIT / "isaret-hotelai.svg").read_text()),
+    "dentai": parilti((KIT / "isaret-dentai.svg").read_text()),
     "agentai": (IG / "isaret-agentai.svg").read_text(),
     "socialai": (IG / "isaret-socialai.svg").read_text(),
 }
@@ -35,8 +44,8 @@ TEMA = {
     "light": dict(z1="#ffffff", z2="#eef1f5", yazi="#14171c", ikinci="#5b6372", halka="#14171c", halka_op="0.06",
                   logo="#14171c", nokta="#f29a1f", etiket="#3a414d"),
 }
-SIRA = [("hotelai", "HotelAI", "otel"), ("dentai", "DentAI", "klinik"),
-        ("agentai", "AgentAI", "ajan ekibi"), ("socialai", "SocialAI", "sosyal medya")]
+SIRA = [("hotelai", "HotelAI", "konaklama"), ("dentai", "DentAI", "diş kliniği"),
+        ("agentai", "AgentAI", "dijital ekip"), ("socialai", "SocialAI", "reklam ve içerik")]
 
 for tema, r in TEMA.items():
     maskotlar = []
@@ -49,7 +58,7 @@ for tema, r in TEMA.items():
             f'<text x="{x + 66}" y="284" text-anchor="middle" class="alt">{alt}</text>')
     logo = ic(opone_logo, "op-").replace('stroke="currentColor"', f'stroke="{r["logo"]}"').replace(
         'fill="currentColor"', f'fill="{r["nokta"]}"')
-    afis = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" width="1280" height="360" role="img" aria-label="OpOne — İşletmenin bütün operasyonu tek yerde">
+    afis = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" width="1280" height="360" role="img" aria-label="OpOne — Operasyonun tamamı, tek bir ekranda">
 <defs><linearGradient id="zemin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{r["z1"]}"/><stop offset="1" stop-color="{r["z2"]}"/></linearGradient></defs>
 <style>
 .baslik{{font:700 64px "Inter","Segoe UI",Helvetica,Arial,sans-serif;fill:{r["yazi"]};letter-spacing:-1.5px}}
@@ -67,8 +76,8 @@ for tema, r in TEMA.items():
 <circle cx="1180" cy="40" r="180" fill="none" stroke="{r["halka"]}" stroke-opacity="{r["halka_op"]}" stroke-width="2"/>
 <svg x="64" y="78" width="72" height="72" viewBox="0 0 48 48">{logo}</svg>
 <text x="152" y="138" class="baslik">OpOne</text>
-<text x="66" y="196" class="cumle">İşletmenin bütün operasyonu tek yerde.</text>
-<text x="66" y="228" class="ince">Oteller, klinikler ve ekipler için yapay zekâ.</text>
+<text x="66" y="196" class="cumle">Operasyonun tamamı, tek bir ekranda.</text>
+<text x="66" y="228" class="ince">Otellere, kliniklere ve ekiplere yapay zekâ ile düzen.</text>
 <text x="66" y="284" class="ince">hellopone.com</text>
 {''.join(maskotlar)}
 </svg>
