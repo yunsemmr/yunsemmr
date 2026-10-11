@@ -57,5 +57,6 @@ Markanızın sesi, her gün ve her kanalda.<br>
 
 <p align="center">
 Pilot dönemde ilk 20 işletmenin kurulumu bizden.<br>
-<a href="https://hellopone.com"><b>hellopone.com</b></a> · <a href="https://www.instagram.com/helloponeai/">@helloponeai</a>
+<a href="https://hellopone.com"><b>hellopone.com</b></a> · <a href="https://www.instagram.com/helloponeai/">@helloponeai</a><br>
+İletişim: <a href="mailto:info@hellopone.com">info@hellopone.com</a>
 </p>
