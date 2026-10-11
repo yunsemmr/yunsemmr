@@ -58,5 +58,6 @@ Markanızın sesi, her gün ve her kanalda.<br>
 <p align="center">
 Pilot dönemde ilk 20 işletmenin kurulumu bizden.<br>
 <a href="https://hellopone.com"><b>hellopone.com</b></a> · <a href="https://www.instagram.com/helloponeai/">@helloponeai</a><br>
+Kuruluş: <a href="https://github.com/opone-ai"><b>github.com/opone-ai</b></a><br>
 İletişim: <a href="mailto:info@hellopone.com">info@hellopone.com</a>
 </p>
